@@ -9,7 +9,7 @@ __maintainer__ = 'Pierre Beaujean'
 __email__ = 'pierre.beaujean@unamur.be'
 __status__ = 'Development'
 
-from pygments.lexer import RegexLexer, include, bygroups
+from pygments.lexer import RegexLexer, include, bygroups, words
 from pygments.token import Text, Comment, Operator, Keyword, Name, String, Number, Punctuation
 
 __all__ = ['OCLLexer']
@@ -43,7 +43,6 @@ class OCLLexer(RegexLexer):
         'definitions',
         'init',
         'derive',
-        'implies',
         'endif',
         'enddefinitions',
         'endlibrary'
@@ -54,8 +53,8 @@ class OCLLexer(RegexLexer):
         'Set',
         'Bag',
         'OrderedSet',
-        'Integer',
         'Boolean',
+        'Integer',
         'Real',
         'String'
     ]
@@ -83,6 +82,16 @@ class OCLLexer(RegexLexer):
         'asSequence',
     ]
 
+    _operator = [
+        'in',
+        'is',
+        'and',
+        'or',
+        'xor',
+        'not',
+        'implies'
+    ]
+
     tokens = {
         'root': [
             (r'\n', Text),
@@ -95,19 +104,19 @@ class OCLLexer(RegexLexer):
             (r'[]{}:(),;[]', Punctuation),
             (r'\\\n', Text),
             (r'\\', Text),
-            (r'(in|is|and|or|not)\b', Operator.Word),
+            (words(_operator, suffix=r'\b'), Operator.Word),
             (r'<>|!=|==|->|<<|>>|[-~+/*%=<>&^|.!]', Operator),
             include('keywords'),
             include('builtins'),
             include('name'),
             (r'"(\\\\|\\"|[^"])*"', String),
             include('numbers'),
-            (r'({})\b'.format(' | '.join(_functions)), Name.Function),
         ],
         'keywords': [
-            (r'({})\b'.format(' | '.join(_keywords)), Keyword),
-            (r'({})\b'.format(' | '.join(_keywords_type)), Keyword.Type),
+            (words(_keywords, suffix=r'\b'), Keyword),
+            (words(_keywords_type, suffix=r'\b'), Keyword.Type),
             (r'(true|false|null)\b', Keyword.Constant),
+            (words(_functions, suffix=r'\b'), Keyword.Pseudo),
         ],
         'builtins': [
             (r'(self|none)\b', Name.Builtin),
