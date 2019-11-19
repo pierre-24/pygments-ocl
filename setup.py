@@ -29,6 +29,6 @@ setup(
         'Programming Language :: Python :: 3'
     ],
     install_requires=pkgs,
-    entry_points='''[pygments.lexers]
-                    ocl=pygments_ocl:OCLLexer''',
+    entry_points="""[pygments.lexers]
+                    ocl=pygments_ocl:OCLLexer""",
 )

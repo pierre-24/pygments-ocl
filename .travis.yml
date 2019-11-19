@@ -1,0 +1,16 @@
+dist: trusty
+
+language: python
+
+python:
+  - 3.6
+
+git:
+  depth: 1
+
+install:
+  - pip3 install pipenv
+
+script:
+  - make init
+  - make lint
