@@ -1,0 +1,16 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pygments = "*"
+pygments-ocl = {editable = true, path = "."}
+
+[dev-packages]
+"flake8" = "*"
+"flake8-quotes" = "*"
+"autopep8" = "*"
+
+[requires]
+python_version = "3.6"
