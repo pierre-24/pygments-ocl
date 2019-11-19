@@ -33,6 +33,7 @@ class OCLLexer(RegexLexer):
         'pre',
         'post',
         'body',
+        'def',
         'if',
         'then',
         'else',
@@ -56,7 +57,9 @@ class OCLLexer(RegexLexer):
         'Boolean',
         'Integer',
         'Real',
-        'String'
+        'String',
+        'Any',
+        'Collection'
     ]
 
     _functions = [
@@ -68,6 +71,7 @@ class OCLLexer(RegexLexer):
         'isUnique',
         'isEmpty',
         'includes',
+        'excludes',
         'select',
         'collect',
         'exists',
