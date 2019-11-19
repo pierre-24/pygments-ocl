@@ -18,3 +18,9 @@ $ pygmentize -L lexers | grep -i "ocl"
 ```
 
 To **use** it, just use the "ocl" language.
+
+You can check the effect by using, for example,
+
+```text
+echo "context Car: inv: self.stuff->forAll(p1, p2|p1 <> p2 implies p1.ID <> p2.id)" | pygmentize -l "ocl" -f "terminal"
+```
