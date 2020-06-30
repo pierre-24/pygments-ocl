@@ -46,7 +46,11 @@ class OCLLexer(RegexLexer):
         'derive',
         'endif',
         'enddefinitions',
-        'endlibrary'
+        'endlibrary',
+        'let',
+        'package',
+        'endpackage',
+        'static'
     ]
 
     _keywords_type = [
@@ -58,13 +62,20 @@ class OCLLexer(RegexLexer):
         'Integer',
         'Real',
         'String',
-        'Any',
-        'Collection'
+        'Tuple',
+        'OclAny',
+        'Collection',
+        'OclInvalid',
+        'OclVoid',
+        'OclMessage',
+        'UnlimitedNatural'
     ]
 
     _functions = [
         'oclIsTypeOf',
         'oclIsKindOf',
+        'oclIsUndefined',
+        'oclIsInvalid',
         'oclAsType',
         'oclIsNew',
         'allInstances',
@@ -84,6 +95,55 @@ class OCLLexer(RegexLexer):
         'asOrderedSet',
         'asBag',
         'asSequence',
+        'one',
+        'abs',
+        'floor',
+        'max',
+        'min',
+        'round',
+        'div',
+        'mod',
+        'concat',
+        'substring',
+        'toInteger',
+        'toLowerCase',
+        'toReal',
+        'toUpperCase',
+        'indexOf',
+        'union',
+        'selectByKind',
+        'any',
+        'notEmpty',
+        'oclIsInState',
+        'reject',
+        'closure',
+        'includesAll',
+        'iterate',
+        'flatten',
+        'collectNested',
+        'count',
+        'excludesAll',
+        'oclType',
+        'oclLocale',
+        'toString',
+        'equalsIgnoreCase',
+        'at',
+        'characters',
+        'toBoolean',
+        'selectByType',
+        'intersection',
+        'including',
+        'excluding',
+        'symmetricDifference',
+        'append',
+        'prepend',
+        'insertAt',
+        'subOrderedSet',
+        'first',
+        'last',
+        'reverse',
+        'subSequence',
+        'sortedBy'
     ]
 
     _operator = [
@@ -109,17 +169,17 @@ class OCLLexer(RegexLexer):
             (r'\\\n', Text),
             (r'\\', Text),
             (words(_operator, suffix=r'\b'), Operator.Word),
-            (r'<>|!=|==|->|<<|>>|[-~+/*%=<>&^|.!]', Operator),
+            (r'<>|!=|==|->|<<|>>|\?|[-~+/*%=<>&^|.!]', Operator),
             include('keywords'),
             include('builtins'),
             include('name'),
-            (r'"(\\\\|\\"|[^"])*"', String),
+            (r'("(\\\\|\\"|[^"])*")|(\'(\\\\|\\\'|[^\'])*\')', String),
             include('numbers'),
         ],
         'keywords': [
             (words(_keywords, suffix=r'\b'), Keyword),
             (words(_keywords_type, suffix=r'\b'), Keyword.Type),
-            (r'(true|false|null)\b', Keyword.Constant),
+            (r'(true|false|null|invalid)\b', Keyword.Constant),
             (words(_functions, suffix=r'\b'), Keyword.Pseudo),
         ],
         'builtins': [
@@ -132,6 +192,10 @@ class OCLLexer(RegexLexer):
         ],
         'name': [
             (r'@[a-zA-Z0-9_.]+', Name.Decorator),
-            ('[a-zA-Z_][a-zA-Z0-9_]*', Name),
+            ('([a-zA-Z$_]|[\u00C0-\u00D6]|[\u00D8-\u00F6]|[\u00F8-\u02FF]|[\u0370-\u037D]|[\u037F-\u1FFF]|[\u200C-\u200D]|[\u2070-\u218F]|[\u2C00-\u2FEF]|[\u3001-\uD7FF]|[\uF900-\uFDCF]|[\uFDF0-\uFFFD])' # Start character
+             '([a-zA-Z$_]|[\u00C0-\u00D6]|[\u00D8-\u00F6]|[\u00F8-\u02FF]|[\u0370-\u037D]|[\u037F-\u1FFF]|[\u200C-\u200D]|[\u2070-\u218F]|[\u2C00-\u2FEF]|[\u3001-\uD7FF]|[\uF900-\uFDCF]|[\uFDF0-\uFFFD][0-9])*' # Continuation character
+             , Name
+             ),
         ],
-    }
+
+}
